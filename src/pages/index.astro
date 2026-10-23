@@ -1,0 +1,272 @@
+---
+import { Image } from 'astro:assets'
+
+import { Quote } from 'astro-pure/advanced'
+import { PostPreview } from 'astro-pure/components/pages'
+import { getBlogCollection, sortMDByDate } from 'astro-pure/server'
+import { Card, Icon, Label } from 'astro-pure/user'
+import Button from '@/components/custom/Button.astro'
+import PageLayout from '@/layouts/BaseLayout.astro'
+import ProjectCard from '@/components/home/ProjectCard.astro'
+import Section from '@/components/home/Section.astro'
+import SkillLayout from '@/components/home/SkillLayout.astro'
+import config from '@/site-config'
+
+const languages = ['Html', 'JavaScript', 'CSS', 'Shell']
+const frontend = ['TypeScript', 'Vite', 'Webpack', 'Astro']
+const backend = ['Vercel', 'Waline']
+
+const MAX_POSTS = 10
+const allPosts = await getBlogCollection()
+const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
+
+const imagePath = config.logo.src
+const images = import.meta.glob<{ default: ImageMetadata }>(
+  '/src/assets/*.{jpeg,jpg,png,gif,avif,webp}'
+)
+if (!images[imagePath])
+  throw new Error(
+    `"${imagePath}" does not exist in glob: "src/assets/*.{jpeg,jpg,png,gif,avif,webp}"`
+  )
+---
+
+<PageLayout meta={{ title: 'Home' }} highlightColor='#659EB966'>
+  <main class='flex w-full flex-col items-center'>
+    <section class='animate mt-6 mb-14 flex w-full flex-col items-center gap-7 md:mt-8 md:flex-row md:justify-center md:gap-9 md:px-12 md:-translate-x-4' id='content-header'>
+      <Image
+        src={images[imagePath]()}
+        alt={config.logo.alt || 'Profile'}
+        class='size-36 shrink-0 rounded-full object-cover md:size-40'
+        loading='eager'
+        fetchpriority='high'
+      />
+
+      <div class='flex min-w-0 flex-col items-center gap-y-5 md:items-start'>
+        <h1 class='text-3xl font-medium md:text-4xl'>{config.author}</h1>
+        <div class='flex flex-wrap justify-center gap-x-7 gap-y-3 md:justify-start'>
+          <Label title='Chongqing,China'>
+            <Icon name='location' class='size-5' slot='icon' />
+          </Label>
+          <Label title="Computer Science">
+            <img
+              src="/icons/graduation-cap.svg"
+              alt=""
+              class="size-6 academic-icon"
+              slot="icon"
+            />
+          </Label>
+        </div>
+      </div>
+    </section>
+
+    <div id='content' class='animate flex flex-col gap-y-10 md:w-4/5 lg:w-5/6'>
+      <Section title='Developer'>
+        <p class='text-muted-foreground'>
+          Hi there! 👋 I'm ShanMao, a Computer Science freshman who's passionate about technology and building things. I love exploring new ideas, experimenting with different technologies, and turning curiosity into real projects.
+        </p>
+        <div class="social-links mt-4 mb-4">
+          <a
+            href="mailto:hi@shanmaoy.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="email"
+            title="Email"
+          >
+            <Icon name="email" class="size-8" />
+          </a>
+
+          <a
+            href="https://github.com/ShanMaoM"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="GitHub"
+            title="GitHub"
+          >
+            <Icon name="github" class="size-8" />
+          </a>
+
+          <a
+            href="https://x.com/ShanMaoy"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="x"
+            title="X"
+          >
+            <Icon name="x" class="size-8" />
+          </a>
+        </div>
+        <Button title='About Me' class='w-fit self-start' href='/about' variant='ahead' />
+      </Section>
+      {
+        allPostsByDate.length > 0 && (
+          <Section title='Posts'>
+            <ul class='flex flex-col gap-y-1.5 sm:gap-y-2'>
+              {allPostsByDate.map((p) => (
+                <li class='flex flex-col gap-x-2 sm:flex-row'>
+                  <PostPreview post={p} />
+                </li>
+              ))}
+            </ul>
+            <Button title='More posts' class='w-fit self-start' href='/blog' variant='ahead' />
+          </Section>
+        )
+      }
+
+      {
+        /* <Section title='Experience'>
+      <Card
+        heading='Lorem Ipsum'
+        subheading='Sit amet consectetur'
+        date='Dec 2022 - Nov 2023'
+        imagePath='/src/assets/about-astro.png'
+        altText='Lorem, ipsum dolor sit'
+        imageClass='h-12 w-auto md:-start-16'
+      >
+        <ul class='ms-4 list-disc text-muted-foreground'>
+          <li>
+            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolore debitis recusandae, ut
+            molestiae laboriosam pariatur!
+
+            <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae, pariatur!</li>
+          </li>
+        </ul>
+      </Card>
+      <Card
+        heading='Lorem Ipsum'
+        subheading='Sit amet consectetur'
+        date='Dec 2022 - Nov 2023'
+        imagePath='/src/assets/about-astro.png'
+        altText='Lorem, ipsum dolor sit'
+        imageClass='h-12 w-auto md:-start-16'
+      />
+    </Section> */
+      }
+      <Section title='Education'>
+        <Card
+        as="a"
+        class="education-card hover:shadow-none hover:border-foreground/9"
+        heading="Chongqing University Of Education"
+        subheading="Computer Science and Technology"
+        date="September 2026 - July 2030"
+        href="https://www.cque.edu.cn/"
+      >
+        <p class="text-muted-foreground">Chongqing, China</p>
+      </Card>
+      </Section>
+    </div>
+  </main>
+</PageLayout>
+
+<style>
+  :global(.education-card) {
+    --education-card-background: 0 0% 100%;
+    --education-card-heading: #171717;
+    min-height: 148px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    padding: 1rem;
+    background-color: hsl(var(--education-card-background));
+    background-image: url('/images/cque-emblem.png');
+    background-repeat: no-repeat;
+    background-position: right center;
+    background-size: auto 240%;
+    background-clip: padding-box;
+  }
+
+  /* Keep the emblem fixed; only crossfade the two theme-aware masks. */
+  :global(.education-card::before),
+  :global(.education-card::after) {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    transition: opacity 400ms ease;
+  }
+
+  :global(.education-card::before) {
+    background: linear-gradient(
+      90deg,
+      hsl(var(--education-card-background)) 0%,
+      hsl(var(--education-card-background)) 45%,
+      hsl(var(--education-card-background) / 75%) 65%,
+      hsl(var(--education-card-background) / 25%) 100%
+    );
+    opacity: 1;
+  }
+
+  :global(.education-card::after) {
+    background: linear-gradient(
+      90deg,
+      hsl(var(--education-card-background)) 0%,
+      hsl(var(--education-card-background)) 45%,
+      hsl(var(--education-card-background) / 50%) 65%,
+      hsl(var(--education-card-background) / 8%) 100%
+    );
+    opacity: 0;
+  }
+
+  :global(.education-card:hover::before),
+  :global(.education-card:focus-visible::before) {
+    opacity: 0;
+  }
+
+  :global(.education-card:hover::after),
+  :global(.education-card:focus-visible::after) {
+    opacity: 1;
+  }
+
+  :global(.education-card > div) {
+    position: relative;
+    z-index: 1;
+  }
+
+  :global(html.dark .education-card) {
+    --education-card-background: var(--muted);
+    --education-card-heading: hsl(var(--foreground));
+  }
+
+  :global(.education-card h2) {
+    color: var(--education-card-heading);
+    font-size: 1.3rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :global(.education-card::before),
+    :global(.education-card::after) {
+      transition: none;
+    }
+  }
+
+  :global(html.dark) .academic-icon {
+    filter: brightness(0) invert(1);
+  }
+
+  .social-links {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .social-links a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: hsl(var(--muted-foreground));
+    transition: color 200ms ease, transform 200ms ease;
+  }
+
+  .social-links a:hover {
+    color: hsl(var(--primary));
+    transform: translateY(-2px);
+  }
+
+  /* 下载的黑色 SVG 在暗色模式下变白 */
+  :global(html.dark) .social-image {
+    filter: brightness(0) invert(1);
+  }
+</style>

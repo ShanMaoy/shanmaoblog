@@ -1,0 +1,21 @@
+# 依赖与构建产物
+node_modules/
+dist/
+.astro/
+.vercel/
+
+# 环境变量
+.env
+.env.*
+!.env.example
+
+# 编辑器和本地工具
+.idea/
+.vscode/
+.agents/
+.codex/
+
+# 日志及系统文件
+*.log
+.DS_Store
+Thumbs.db
