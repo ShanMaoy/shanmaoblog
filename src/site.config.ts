@@ -3,8 +3,8 @@ import type { CardListData, Config, IntegrationUserConfig, ThemeUserConfig } fro
 export const theme: ThemeUserConfig = {
   // [Basic]
   /** Title for your website. Will be used in metadata and as browser tab title. */
-  title: "ShanMao'Blog", /** Will be used in index page & copyright declaration */
-  author: 'ShanMao',
+  title: "ShanMaoy'site", /** Will be used in index page & copyright declaration */
+  author: 'ShanMaoy',
   /** Description metadata for your website. Can be used in page metadata. */
   description: 'A personal space for code, projects, notes, and thoughts.',
   /** The default favicon for your site which should be a path to an image in the `public/` directory. */
