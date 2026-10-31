@@ -63,7 +63,7 @@ export default defineConfig({
       // subsets: ["cyrillic-ext", "cyrillic", "greek-ext", "greek", "vietnamese", "latin-ext", "latin"],
       // fallbacks: ["sans-serif"],
       styles: ['normal', 'italic'],
-      weights: [400, 500],
+      weights: ['300 900'],
       subsets: ['latin']
     }
   ],

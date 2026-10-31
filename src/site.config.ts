@@ -1,9 +1,13 @@
-import type { CardListData, Config, IntegrationUserConfig, ThemeUserConfig } from 'astro-pure/types'
+import type { CardListData, Config, IntegrationUserConfig, ThemeUserConfig } from 'astro-pure/types';
+
+
+
+
 
 export const theme: ThemeUserConfig = {
   // [Basic]
   /** Title for your website. Will be used in metadata and as browser tab title. */
-  title: "ShanMaoy'site", /** Will be used in index page & copyright declaration */
+  title: "ShanMaoy's site", /** Will be used in index page & copyright declaration */
   author: 'ShanMaoy',
   /** Description metadata for your website. Can be used in page metadata. */
   description: 'A personal space for code, projects, notes, and thoughts.',
@@ -99,18 +103,14 @@ export const integ: IntegrationUserConfig = {
   links: {
     // Friend logbook
     logbook: [
-      { date: '2025-03-16', content: 'Is there a leakage?' },
-      { date: '2025-03-16', content: 'A leakage of what?' },
-      { date: '2025-03-16', content: 'I have a full seat of water, like, full of water!' },
-      { date: '2025-03-16', content: 'Must be the water.' },
-      { date: '2025-03-16', content: "Let's add that to the words of wisdom." }
+      { date: '2026-10-31', content: 'yuesekaer小站' }
     ],
     // Yourself link info
     applyTip: [
       { name: 'Name', val: theme.title },
-      { name: 'Desc', val: theme.description || 'Null' },
-      { name: 'Link', val: 'https://astro-pure.js.org/' },
-      { name: 'Avatar', val: 'https://astro-pure.js.org/favicon/favicon.ico' }
+      { name: 'Website', val: 'https://blog.shanmaoy.com/' },
+      { name: 'Motto', val: 'Keep learning, keep building, keep questioning.' },
+      { name: 'Avatar', val: 'https://blog.shanmaoy.com/images/avatar.png' }
     ],
     // Cache avatars in `public/avatars/` to improve user experience.
     cacheAvatar: false
@@ -122,6 +122,7 @@ export const integ: IntegrationUserConfig = {
   // [Quote]
   quote: {
     // - Hitokoto
+    // https://developer.hitokoto.cn/sentence/#%E8%AF%B7%E6%B1%82%E5%9C%B0%E5%9D%80
     // https://developer.hitokoto.cn/sentence/#%E8%AF%B7%E6%B1%82%E5%9C%B0%E5%9D%80
     // server: 'https://v1.hitokoto.cn/?c=i',
     // target: `(data) => (data.hitokoto || 'Error')`
@@ -156,7 +157,7 @@ export const integ: IntegrationUserConfig = {
   waline: {
     enable: true,
     // Server service link
-    server: 'https://astro-theme-pure-waline.arthals.ink/',
+    server: 'https://comment.shanmaoy.com/',
     // Show meta info for comments
     showMeta: false,
     // Refer https://waline.js.org/en/guide/features/emoji.html
@@ -174,6 +175,16 @@ export const integ: IntegrationUserConfig = {
     }
   }
 }
+
+export const dependencies = [
+  { name: 'Website Source Code', val: 'GitHub', link: 'https://github.com/ShanMaoy/shanmaoblog' },
+  { name: 'Framework', val: 'Astro', link: 'https://astro.build/' },
+  { name: 'Original Theme', val: 'Astro Theme Pure', link: 'https://github.com/cworld1/astro-theme-pure' },
+  { name: 'Hosting', val: 'Debian Server', link: 'https://www.debian.org/' },
+  { name: 'CI/CD', val: 'GitHub Actions', link: 'https://github.com/features/actions' },
+  { name: 'Web Server', val: 'Caddy', link: 'https://caddyserver.com/' },
+  { name: 'Comment System', val: 'Waline', link: 'https://waline.js.org/' }
+]
 
 export const terms: CardListData = {
   title: 'Terms content',

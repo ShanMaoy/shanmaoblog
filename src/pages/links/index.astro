@@ -5,11 +5,12 @@ import { Collapse, Timeline } from 'astro-pure/user'
 import PageLayout from '@/layouts/CommonPage.astro'
 import FriendList from '@/components/links/FriendList.astro'
 import config from 'virtual:config'
+import { dependencies } from '@/site-config'
 
 const headings = [
-  { depth: 2, slug: 'common-links', text: 'Common Links' },
-  { depth: 2, slug: 'special-links', text: 'Special Links' },
-  { depth: 2, slug: 'apply-links', text: 'Apply Links' }
+  { depth: 2, slug: 'Frilinks', text: 'Friend Links' },
+  { depth: 2, slug: 'apply-links', text: 'Apply Links' },
+  { depth: 2, slug: 'dependencies', text: 'Dependencies of This Site' }
 ]
 
 const { friends } = links
@@ -18,48 +19,146 @@ const linkEditPage = 'https://github.com/cworld1/astro-theme-pure/blob/main/publ
 ---
 
 <PageLayout title='Links' {headings} comment>
-  <p>They're sorted randomly.</p>
-  <h2 id='common-links'>Common Links</h2>
+  <h2 id='Frilinks'>Friend Links</h2>
   <FriendList list={friends[0]} />
-  <Collapse title='Links with Bad Status'>
-    <FriendList list={friends[1]} />
-  </Collapse>
   <Collapse title='Link History Book'>
     <Timeline events={linksConf.logbook} />
   </Collapse>
-  <h2 id='special-links'>Special Links</h2>
-  <FriendList list={friends[2]} />
-
   <h2 id='apply-links'>Apply Links</h2>
-  <p>本站信息（点击复制）The site information (click to copy)：</p>
-  <blockquote class='not-prose grid grid-cols-[auto_1fr] gap-x-2 break-words border-s-4 ps-4'>
+  <div class="friend-info not-prose">
     {
-      linksConf.applyTip.map(({ name, val }) => {
-        const script = `navigator.clipboard.writeText('${val}');document.dispatchEvent(new CustomEvent('toast',{detail:{message:'Copied "${val}" to clipboard!'}}))`
-        return (
-          <>
-            <span class='text-end'>{name}:</span>
-            <samp class='cursor-pointer' onclick={script}>
-              {val}
-            </samp>
-          </>
-        )
-      })
+      linksConf.applyTip.map(({ name, val }) => (
+        <button
+          type="button"
+          class="friend-info-item"
+          data-friend-copy={val}
+          aria-label={`复制 ${name}`}
+          title="点击复制"
+        >
+          <span class="friend-info-label">{name}</span>
+          <span class="friend-info-value">{val}</span>
+        </button>
+      ))
     }
-  </blockquote>
-
-  <p>
-    可通过下方留言或 <a href={linkEditPage} target='_blank'>提交 PR</a> 申请友链。申请说明：<br />
-    Apply your link by leaving comment or <a href={linkEditPage} target='_blank'>Submitting a PR</a
-    >. Additional info:
-  </p>
+  </div>
   <ul>
-    <li>推荐了本站 You've recommended our link on your website</li>
-    <li>站点活着且有正式域名 Make sure your site is alive with a formal domain</li>
-    <li>
-      至少五篇原创文章且最近一年更新过 At least 5 original articles and exists articles released in
-      recent year
-    </li>
-    <li>内容不违反国家法律 Content does not violate laws</li>
+    <li>Add this site as one of your friend links.</li>
+    <li>Make sure your site is alive with a formal domain</li>
+    <li>Please contact me via <a href="mailto:hi@shanmaoy.com" target="_blank">email</a> or leave a comment to apply. Include your website name, domain, description, and favicon.</li>
   </ul>
+
+  <h2 id='dependencies'>Dependencies of This Site</h2>
+  <div class='friend-info dependencies-info not-prose'>
+    {
+      dependencies.map(({ name, val, link }) => (
+        <a class='friend-info-item' href={link} target='_blank' rel='noopener noreferrer'>
+          <span class='friend-info-label'>{name}</span>
+          <span class='friend-info-value'>{val}</span>
+        </a>
+      ))
+    }
+  </div>
 </PageLayout>
+
+
+<style>
+  .friend-info {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.5rem 1rem;
+    margin-block: 1rem 1.5rem;
+    padding: 1rem;
+    border: 1px solid hsl(var(--border));
+    border-radius: 1rem;
+  }
+
+  .friend-info-item {
+    display: grid;
+    grid-template-columns: 80px minmax(0, 1fr);
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+    padding: 1rem;
+    border: 1px solid transparent;
+    border-radius: 0.75rem;
+    background: transparent;
+    color: hsl(var(--foreground));
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+    transition: background-color 200ms ease;
+  }
+
+  .friend-info-item:hover {
+    background-color: hsl(var(--muted));
+  }
+
+  .friend-info-item:focus-visible {
+    outline: 2px solid hsl(var(--primary));
+    outline-offset: 2px;
+  }
+
+  .friend-info-label {
+    font-weight: 500;
+    text-align: center;
+  }
+
+  .friend-info-value {
+    min-width: 0;
+    color: hsl(var(--muted-foreground));
+    overflow-wrap: anywhere;
+  }
+
+  .dependencies-info .friend-info-item {
+    grid-template-columns: fit-content(65%) minmax(0, 1fr);
+    text-decoration: none;
+  }
+
+  .dependencies-info .friend-info-label {
+    text-align: left;
+  }
+
+  .dependencies-info .friend-info-value {
+    text-align: right;
+  }
+
+  @media (min-width: 768px) {
+    .friend-info {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-auto-flow: row;
+    }
+  }
+
+  #Frilinks,
+  #dependencies,
+  #apply-links {
+    font-weight: 430;
+  }
+</style>
+
+
+<script>
+  document
+    .querySelectorAll<HTMLButtonElement>('[data-friend-copy]')
+    .forEach((button) => {
+      button.addEventListener('click', async () => {
+        const value = button.dataset.friendCopy ?? ''
+
+        try {
+          await navigator.clipboard.writeText(value)
+
+          document.dispatchEvent(
+            new CustomEvent('toast', {
+              detail: { message: 'Copied to clipboard' }
+            })
+          )
+        } catch {
+          document.dispatchEvent(
+            new CustomEvent('toast', {
+              detail: { message: 'Copy failed. Please copy manually' }
+            })
+          )
+        }
+      })
+    })
+</script>
