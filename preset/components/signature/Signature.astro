@@ -14,11 +14,11 @@ interface Props extends HTMLAttributes<'div'> {
 
 const {
   mode = 'loop',
-  drawDelay = 200,
-  rollbackDelay = 80,
-  loopPause = 2000,
+  drawDelay = 50,
+  rollbackDelay = 20,
+  loopPause = 500,
   threshold = 1.0,
-  defaultDuration = 600,
+  defaultDuration = 230,
   class: className,
   ...rest
 } = Astro.props
@@ -26,7 +26,7 @@ const {
 
 <div
   class:list={[
-    'signature-wrapper w-40 float-right mt-4 [&_path]:stroke-black dark:[&_path]:stroke-gray-2 [&_path]:opacity-0',
+    'signature-wrapper w-80 float-right mt-4 [&_path]:opacity-0',
     className
   ]}
   data-mode={mode}
@@ -103,12 +103,16 @@ const {
 
       // 等待动画完成
       setTimeout(() => {
-        // 如果不是最后一笔，添加延迟
+        // 仅在最后一笔开始前保留停顿，其余笔画连续书写。
         // @ts-ignore
-        const nextDelay = index < paths.length - 1 ? drawDelay : 0
-        setTimeout(() => {
+        const nextDelay = index === paths.length - 2 ? drawDelay : 0
+        if (nextDelay > 0) {
+          setTimeout(() => {
+            drawSequentially(index + 1, callback)
+          }, nextDelay)
+        } else {
           drawSequentially(index + 1, callback)
-        }, nextDelay)
+        }
       }, duration)
     }
 
@@ -163,18 +167,18 @@ const {
       }
 
       // 初始延迟后开始
-      setTimeout(runLoop, 500)
+      setTimeout(runLoop, 100)
       // @ts-ignore
     } else if (mode === 'once-on-view') {
       const observer = new IntersectionObserver(
         (entries, obs) => {
           entries.forEach((entry) => {
             if (entry.isIntersecting) {
-              // 再等500ms后移除观察器
+              // 再等100ms后移除观察器
               setTimeout(() => {
                 drawSequentially(0)
                 obs.unobserve(entry.target)
-              }, 500)
+              }, 100)
             }
           })
         },

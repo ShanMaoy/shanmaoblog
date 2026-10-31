@@ -3,6 +3,7 @@ import { Button, Spoiler, Timeline } from 'astro-pure/user'
 import PageLayout from '@/layouts/CommonPage.astro'
 import Substats from '@/components/about/Substats.astro'
 import ToolSection from '@/components/about/ToolSection.astro'
+import Signature from '../../../preset/components/signature/Signature.astro'
 
 const headings = [
   { depth: 2, slug: 'social-networks', text: 'Social Networks' },
@@ -149,6 +150,7 @@ const headings = [
   <p>This is already the umpteenth blog I've tinkered with.</p>
   <p>A long time ago, I used WordPress, but eventually found it a little too bloated for the kind of content I wanted to share. After starting university, I decided to build my own blog from scratch. Unfortunately, my design skills weren't quite up to the task, and after several attempts, I still couldn't get the look I wanted.</p>
   <p>Then one day, I stumbled upon a blog using this theme. I loved its design at first sight, and it felt just right for me. So, here I am, starting another round of tinkering.</p>
+  <Signature mode='once-on-view' />
 </PageLayout>
 
 <style>
