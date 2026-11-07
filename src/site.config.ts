@@ -66,7 +66,7 @@ export const theme: ThemeUserConfig = {
     links: [
       // ICP 备案信息
       {
-        title: '（渝ICP备2026028268号-1）',
+        title: '渝ICP备2026028268号-1',
         link: 'https://beian.miit.gov.cn/',
         pos: 1
       },
