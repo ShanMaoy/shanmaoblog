@@ -20,8 +20,8 @@ export const theme: ThemeUserConfig = {
     lang: 'zh-CN',
     attrs: 'zh-CN',
     // Date locale
-      dateLocale: 'zh-CN',
-      dateOptions: {
+    dateLocale: 'zh-CN',
+    dateOptions: {
       day: 'numeric',
       month: 'short',
       year: 'numeric'
@@ -29,7 +29,7 @@ export const theme: ThemeUserConfig = {
   },
   /** Set a logo image to show in the homepage. */
   logo: {
-    src: '/src/assets/avatar.png',
+    src: '/src/assets/avatar.webp',
     alt: 'Avatar'
   },
 
@@ -64,6 +64,12 @@ export const theme: ThemeUserConfig = {
     year: `© ${new Date().getFullYear()}`,
     // year: `© 2019 - ${new Date().getFullYear()}`,
     links: [
+      // ICP 备案信息
+      {
+        title: '（渝ICP备2026028268号-1）',
+        link: 'https://beian.miit.gov.cn/',
+        pos: 1
+      },
       // Privacy Policy link
       {
         title: 'Site Policy',
@@ -110,7 +116,7 @@ export const integ: IntegrationUserConfig = {
       { name: 'Name', val: theme.title },
       { name: 'Website', val: 'https://blog.shanmaoy.com/' },
       { name: 'Motto', val: 'Keep learning, keep building, keep questioning.' },
-      { name: 'Avatar', val: 'https://blog.shanmaoy.com/images/avatar.png' }
+      { name: 'Avatar', val: 'https://blog.shanmaoy.com/images/avatar.webp' }
     ],
     // Cache avatars in `public/avatars/` to improve user experience.
     cacheAvatar: false
@@ -122,7 +128,6 @@ export const integ: IntegrationUserConfig = {
   // [Quote]
   quote: {
     // - Hitokoto
-    // https://developer.hitokoto.cn/sentence/#%E8%AF%B7%E6%B1%82%E5%9C%B0%E5%9D%80
     // https://developer.hitokoto.cn/sentence/#%E8%AF%B7%E6%B1%82%E5%9C%B0%E5%9D%80
     // server: 'https://v1.hitokoto.cn/?c=i',
     // target: `(data) => (data.hitokoto || 'Error')`
